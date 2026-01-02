@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aplikasi Warung & Kasir</title>
+<style>
+:root {
+    --primary: #2c3e50;
+    --secondary: #3498db;
+    --success: #27ae60;
+    --danger: #e74c3c;
+    --warning: #f39c12;
+    --light: #ecf0f1;
+    --dark: #2c3e50;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --border-radius: 10px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    padding: 15px;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.header h1 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.header p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.header-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.8rem;
+}
+
+/* Card */
+.card {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.card:last-child {
+    border-bottom: none;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.card-title i {
+    margin-right: 10px;
+    font-size: 1.5rem;
+}
+
+/* Form Input */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.input-field, .select-field {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.input-field:focus, .select-field:focus {
+    border-color: var(--secondary);
+    outline: none;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+}
+
+.input-with-icon input, .input-with-icon select {
+    padding-left: 45px;
+}
+
+/* Buttons */
+.btn {
+    padding: 14px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
+.btn-primary {
+    background-color: var(--success);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #219653;
+}
+
+.btn-secondary {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #2980b9;
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.btn-warning {
+    background-color: var(--warning);
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #e67e22;
+}
+
+.btn-sm {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    width: auto;
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+/* Search */
+.search-container {
+    margin-top: 15px;
+    position: relative;
+}
+
+.search-container i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+}
+
+.search-container input {
+    padding-left: 45px;
+}
+
+/* Table */
+.table-container {
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 500px;
+}
+
+th {
+    background-color: var(--light);
+    padding: 15px;
+    text-align: left;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* Keranjang */
+.keranjang {
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.total-container {
+    background-color: var(--light);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.total-amount {
+    color: var(--success);
+    font-size: 1.5rem;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #777;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #ddd;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 25px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: var(--shadow);
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-title {
+    font-size: 1.3rem;
+    color: var(--primary);
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #777;
+}
+
+/* Tab Navigation */
+.tabs {
+    display: flex;
+    background-color: var(--light);
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.tab {
+    flex: 1;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+}
+
+.tab.active {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .btn-group .btn {
+        width: 100%;
+    }
+    
+    .card-title {
+        font-size: 1.1rem;
+    }
+    
+    .total-container {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.3rem;
+    }
+    
+    .header-icon {
+        display: none;
+    }
+    
+    .card {
+        padding: 15px;
+    }
+    
+    .modal-content {
+        padding: 20px;
+    }
+}
+
+/* Icons */
+.fas {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+/* Utility Classes */
+.mt-20 { margin-top: 20px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-20 { margin-bottom: 20px; }
+.text-center { text-align: center; }
+.d-flex { display: flex; }
+.flex-column { flex-direction: column; }
+.gap-10 { gap: 10px; }
+.gap-15 { gap: 15px; }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1><i class="fas fa-store"></i> Warung & Kasir App</h1>
+        <p>Kelola barang dan transaksi dengan mudah</p>
+        <div class="header-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </div>
+    </div>
+    
+    <!-- Tab Navigation -->
+    <div class="tabs">
+        <div class="tab active" onclick="openTab('barang')">
+            <i class="fas fa-boxes"></i> Barang
+        </div>
+        <div class="tab" onclick="openTab('kasir')">
+            <i class="fas fa-cash-register"></i> Kasir
+        </div>
+    </div>
+    
+    <!-- Tab Content: Barang -->
+    <div id="tab-barang" class="tab-content active">
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-plus-circle"></i> Tambah / Edit Barang
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="namaBarang">Nama Barang</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-tag"></i>
+                    <input type="text" class="input-field" id="namaBarang" placeholder="Contoh: Indomie Goreng">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="hargaBarang">Harga (Rp)</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <input type="number" class="input-field" id="hargaBarang" placeholder="Contoh: 3500">
+                </div>
+            </div>
+            
+            <input type="hidden" id="editIndex">
+            
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="simpanBarang()">
+                    <i class="fas fa-save"></i> Simpan Barang
+                </button>
+                <button class="btn btn-warning" onclick="resetForm()">
+                    <i class="fas fa-redo"></i> Reset Form
+                </button>
+            </div>
+        </div>
+        
+        <!-- Pencarian -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-search"></i> Cari Barang
+            </div>
+            
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" class="input-field" id="searchInput" placeholder="Ketik nama barang..." onkeyup="tampilkanBarang()">
+            </div>
+        </div>
+        
+        <!-- Daftar Barang -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-list"></i> Daftar Barang
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Barang</th>
+                            <th>Harga</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelBarang">
+                        <!-- Data barang akan muncul di sini -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Empty State -->
+            <div id="emptyBarang" class="empty-state" style="display: none;">
+                <i class="fas fa-box-open"></i>
+                <h3>Belum ada barang</h3>
+                <p>Tambahkan barang pertama Anda dengan mengisi form di atas</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tab Content: Kasir -->
+    <div id="tab-kasir" class="tab-content">
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="pilihBarang">Pilih Barang</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-box"></i>
+                    <select class="select-field" id="pilihBarang">
+                        <option value="">-- Pilih Barang --</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="jumlah">Jumlah</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-hashtag"></i>
+                    <input type="number" class="input-field" id="jumlah" placeholder="Contoh: 3" min="1">
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="tambahKeKeranjang()">
+                <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+            </button>
+        </div>
+        
+        <!-- Keranjang Belanja -->
+        <div class="keranjang">
+            <div class="card-title">
+                <i class="fas fa-receipt"></i> Keranjang Belanja
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Barang</th>
+                            <th>Harga</th>
+                            <th>Jml</th>
+                            <th>Subtotal</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="keranjang">
+                        <!-- Item keranjang akan muncul di sini -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Empty State Keranjang -->
+            <div id="emptyKeranjang" class="empty-state">
+                <i class="fas fa-shopping-basket"></i>
+                <h3>Keranjang kosong</h3>
+                <p>Tambahkan barang dari daftar di atas</p>
+            </div>
+            
+            <!-- Total -->
+            <div class="total-container">
+                <span>Total Belanja:</span>
+                <span class="total-amount" id="totalBelanja">Rp 0</span>
+            </div>
+            
+            <div class="btn-group mt-20">
+                <button class="btn btn-danger" onclick="hapusSemuaKeranjang()">
+                    <i class="fas fa-trash-alt"></i> Kosongkan Keranjang
+                </button>
+                <button class="btn btn-success" onclick="checkout()">
+                    <i class="fas fa-check-circle"></i> Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Checkout -->
+<div id="checkoutModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title">
+                <i class="fas fa-check-circle"></i> Checkout Berhasil
+            </div>
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+        </div>
+        
+        <div class="text-center mb-20">
+            <i class="fas fa-check-circle" style="font-size: 4rem; color: #27ae60;"></i>
+            <h3 style="margin: 15px 0 10px;">Transaksi Selesai</h3>
+            <p>Total pembayaran: <strong id="modalTotal">Rp 0</strong></p>
+            <p>Terima kasih telah berbelanja!</p>
+        </div>
+        
+        <button class="btn btn-primary" onclick="closeModal()">
+            <i class="fas fa-print"></i> Cetak Struk
+        </button>
+    </div>
+</div>
+
+<script>
+// ===== DATA =====
+let barang = JSON.parse(localStorage.getItem("barangWarung")) || [];
+let keranjang = [];
+
+// ===== TAB FUNCTIONALITY =====
+function openTab(tabName) {
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Show selected tab content
+    document.getElementById(`tab-${tabName}`).classList.add('active');
+    
+    // Update active tab
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    event.currentTarget.classList.add('active');
+}
+
+// ===== BARANG FUNCTIONS =====
+function simpanBarang() {
+    const nama = document.getElementById('namaBarang').value.trim();
+    const harga = parseInt(document.getElementById('hargaBarang').value);
+    const editIndex = document.getElementById('editIndex').value;
+    
+    // Validasi input
+    if (!nama || !harga || harga <= 0) {
+        alert("Mohon isi nama dan harga barang dengan benar!");
+        return;
+    }
+    
+    if (editIndex === "") {
+        // Tambah barang baru
+        barang.push({ nama, harga });
+        showNotification("Barang berhasil ditambahkan", "success");
+    } else {
+        // Update barang yang sudah ada
+        barang[editIndex] = { nama, harga };
+        document.getElementById('editIndex').value = "";
+        showNotification("Barang berhasil diperbarui", "success");
+    }
+    
+    // Simpan ke localStorage
+    localStorage.setItem("barangWarung", JSON.stringify(barang));
+    
+    // Reset form
+    resetForm();
+    
+    // Update tampilan
+    tampilkanBarang();
+    updateSelect();
+}
+
+function resetForm() {
+    document.getElementById('namaBarang').value = "";
+    document.getElementById('hargaBarang').value = "";
+    document.getElementById('editIndex').value = "";
+}
+
+function tampilkanBarang() {
+    const tabel = document.getElementById('tabelBarang');
+    const emptyState = document.getElementById('emptyBarang');
+    const cari = document.getElementById('searchInput').value.toLowerCase();
+    
+    // Filter barang berdasarkan pencarian
+    const barangFiltered = barang.filter(item => 
+        item.nama.toLowerCase().includes(cari)
+    );
+    
+    // Tampilkan atau sembunyikan empty state
+    if (barangFiltered.length === 0) {
+        tabel.innerHTML = "";
+        emptyState.style.display = 'block';
+    } else {
+        emptyState.style.display = 'none';
+        
+        // Buat baris tabel
+        let html = '';
+        barangFiltered.forEach((item, i) => {
+            // Cari index asli di array barang
+            const originalIndex = barang.findIndex(b => b.nama === item.nama && b.harga === item.harga);
+            
+            html += `
+            <tr>
+                <td>${i + 1}</td>
+                <td>${item.nama}</td>
+                <td>Rp ${item.harga.toLocaleString('id-ID')}</td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary btn-sm" onclick="editBarang(${originalIndex})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="hapusBarang(${originalIndex})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>`;
+        });
+        
+        tabel.innerHTML = html;
+    }
+}
+
+function editBarang(i) {
+    // Isi form dengan data barang yang akan diedit
+    document.getElementById('namaBarang').value = barang[i].nama;
+    document.getElementById('hargaBarang').value = barang[i].harga;
+    document.getElementById('editIndex').value = i;
+    
+    // Scroll ke form
+    document.getElementById('namaBarang').focus();
+    
+    // Pindah ke tab barang jika belum di sana
+    if (!document.getElementById('tab-barang').classList.contains('active')) {
+        openTab('barang');
+    }
+}
+
+function hapusBarang(i) {
+    if (confirm(`Apakah Anda yakin ingin menghapus "${barang[i].nama}"?`)) {
+        barang.splice(i, 1);
+        localStorage.setItem("barangWarung", JSON.stringify(barang));
+        tampilkanBarang();
+        updateSelect();
+        showNotification("Barang berhasil dihapus", "danger");
+    }
+}
+
+function updateSelect() {
+    const select = document.getElementById('pilihBarang');
+    select.innerHTML = '<option value="">-- Pilih Barang --</option>';
+    
+    barang.forEach((item, i) => {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `${item.nama} - Rp ${item.harga.toLocaleString('id-ID')}`;
+        select.appendChild(option);
+    });
+}
+
+// ===== KERANJANG FUNCTIONS =====
+function tambahKeKeranjang() {
+    const index = document.getElementById('pilihBarang').value;
+    const qty = parseInt(document.getElementById('jumlah').value);
+    
+    // Validasi input
+    if (index === "") {
+        alert("Silakan pilih barang terlebih dahulu!");
+        return;
+    }
+    
+    if (!qty || qty <= 0) {
+        alert("Jumlah tidak valid. Masukkan angka lebih dari 0!");
+        return;
+    }
+    
+    // Tambah ke keranjang
+    keranjang.push({
+        nama: barang[index].nama,
+        harga: barang[index].harga,
+        jumlah: qty
+    });
+    
+    // Reset input
+    document.getElementById('jumlah').value = "";
+    
+    // Update tampilan
+    tampilkanKeranjang();
+    showNotification("Barang ditambahkan ke keranjang", "success");
+}
+
+function tampilkanKeranjang() {
+    const table = document.getElementById('keranjang');
+    const emptyState = document.getElementById('emptyKeranjang');
+    const totalElement = document.getElementById('totalBelanja');
+    let total = 0;
+    
+    // Tampilkan atau sembunyikan empty state
+    if (keranjang.length === 0) {
+        table.innerHTML = "";
+        emptyState.style.display = 'block';
+        totalElement.textContent = "Rp 0";
+    } else {
+        emptyState.style.display = 'none';
+        
+        // Buat baris tabel keranjang
+        let html = '';
+        keranjang.forEach((item, i) => {
+            const subtotal = item.harga * item.jumlah;
+            total += subtotal;
+            
+            html += `
+            <tr>
+                <td>${item.nama}</td>
+                <td>Rp ${item.harga.toLocaleString('id-ID')}</td>
+                <td>${item.jumlah}</td>
+                <td>Rp ${subtotal.toLocaleString('id-ID')}</td>
+                <td>
+                    <button class="btn btn-danger btn-sm" onclick="hapusItem(${i})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>`;
+        });
+        
+        table.innerHTML = html;
+        totalElement.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+    }
+}
+
+function hapusItem(i) {
+    keranjang.splice(i, 1);
+    tampilkanKeranjang();
+    showNotification("Barang dihapus dari keranjang", "danger");
+}
+
+function hapusSemuaKeranjang() {
+    if (keranjang.length === 0) {
+        alert("Keranjang masih kosong!");
+        return;
+    }
+    
+    if (confirm("Yakin ingin mengosongkan keranjang belanja?")) {
+        keranjang = [];
+        tampilkanKeranjang();
+        showNotification("Keranjang berhasil dikosongkan", "danger");
+    }
+}
+
+// ===== CHECKOUT =====
+function checkout() {
+    if (keranjang.length === 0) {
+        alert("Keranjang masih kosong. Tambahkan barang terlebih dahulu!");
+        return;
+    }
+    
+    // Hitung total
+    let total = 0;
+    keranjang.forEach(item => {
+        total += item.harga * item.jumlah;
+    });
+    
+    // Tampilkan modal checkout
+    document.getElementById('modalTotal').textContent = `Rp ${total.toLocaleString('id-ID')}`;
+    document.getElementById('checkoutModal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('checkoutModal').style.display = 'none';
+    
+    // Kosongkan keranjang setelah checkout
+    keranjang = [];
+    tampilkanKeranjang();
+}
+
+// ===== NOTIFICATION =====
+function showNotification(message, type) {
+    // Buat elemen notifikasi
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <div style="position: fixed; top: 20px; right: 20px; background: ${type === 'success' ? '#27ae60' : '#e74c3c'}; 
+        color: white; padding: 15px 20px; border-radius: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); 
+        z-index: 1000; animation: slideIn 0.3s;">
+            <i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}-circle"></i> ${message}
+        </div>
+    `;
+    
+    // Tambahkan ke body
+    document.body.appendChild(notification);
+    
+    // Hapus notifikasi setelah 3 detik
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// ===== INITIALIZE =====
+// Inisialisasi saat halaman dimuat
+document.addEventListener('DOMContentLoaded', function() {
+    tampilkanBarang();
+    updateSelect();
+    tampilkanKeranjang();
+    
+    // Tambahkan style untuk animasi notifikasi
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    `;
+    document.head.appendChild(style);
+});
+
+// ===== EVENT LISTENERS =====
+// Tambahkan event listener untuk Enter key di form barang
+document.getElementById('hargaBarang').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        simpanBarang();
+    }
+});
+
+// Tambahkan event listener untuk Enter key di form keranjang
+document.getElementById('jumlah').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        tambahKeKeranjang();
+    }
+});
+
+// Tutup modal saat klik di luar konten modal
+window.onclick = function(event) {
+    const modal = document.getElementById('checkoutModal');
+    if (event.target === modal) {
+        closeModal();
+    }
+};
+</script>
+
+</body>
+</html>
